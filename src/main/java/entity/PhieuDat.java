@@ -5,10 +5,12 @@ import java.time.ZoneId;
 import java.util.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -36,7 +38,7 @@ public class PhieuDat {
 	@ManyToOne
 	@JoinColumn(name="MANV")
 	private NhanVien nhanvien;
-
+	
 	public PhieuDat() {}
 	
 	public PhieuDat(String hoten,String email, String Diachi,String SDT, int makh) {

@@ -332,7 +332,19 @@ public class CartController {
 		else {
 			makh = this.findKHbySDT(sdt).getMAKH();
 		}
-			
+		
+		boolean flag = true;
+		for(ItemGH item : gh.getItems()) {
+			if (item.getSoluong() > item.getSp().getSOLUONG()) {
+				gh.deleteItem(item.getSp());
+				flag=false;
+			}
+		}
+		if(!flag) {
+			session2.setAttribute("gioHang",gh);
+			return "redirect:/cart.htm";
+			}
+		
 			Session session = factory.openSession();
 			Transaction t = session.beginTransaction();
 			try {	

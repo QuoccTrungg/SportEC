@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import entity.CTPD;
 import entity.NhanVien;
 import entity.PhieuDat;
+import entity.SanPham;
 
 
 @Transactional
@@ -34,7 +35,15 @@ public class OrderController {
 		List<PhieuDat> list = query.list();
 		return list;
 }
-	
+	////
+	public List<CTPD> getCTPD(int mapd) {
+		Session session = factory.getCurrentSession();
+		String hql = "FROM CTPD WHERE MAPD LIKE '" + mapd + "'";
+		Query query = session.createQuery(hql);
+		List<CTPD> list = query.list();
+		return list;
+}
+	//////
 	public List<PhieuDat> getConfirmedOrders() {
 		Session session = factory.getCurrentSession();
 		String hql = "FROM PhieuDat WHERE TRANGTHAI=2";
@@ -80,7 +89,7 @@ model.addAttribute("confirmedOrder", getConfirmedOrders());
 		Query query = session.createQuery(hql);
 		@SuppressWarnings("unchecked")
 		List<CTPD> od = query.list();
-		System.out.println(od.get(0).getSp().getTENSP());
+		//System.out.println(od.get(0).getSp().getTENSP());
 		model.addAttribute("od", od);
 		model.addAttribute("id", id);
 		model.addAttribute("size", od.size());
@@ -136,12 +145,38 @@ model.addAttribute("confirmedOrder", getConfirmedOrders());
 //	
 	@RequestMapping(value="deny/{order_id}")
 	public String deny(ModelMap model, @PathVariable("order_id") int order_id) {
+
 		Session session = factory.openSession();
 		Transaction t = session.beginTransaction();
+
 		PhieuDat pd = (PhieuDat) session.get(PhieuDat.class,order_id);
 		/// HUY đơn : TRANGTHAI=0///////
-		
+
 		pd.setTRANGTHAI(0);
+		List<CTPD> listct=getCTPD(pd.getMAPD());
+//		System.out.println("===========");
+		for(CTPD item : listct) {
+
+			Session session2 = factory.openSession();
+			Transaction t2 = session2.beginTransaction();
+			SanPham sp = (SanPham)session2.get(SanPham.class,item.getSp().getMASP());
+			sp.setSOLUONG(sp.getSOLUONG()+item.getSOLUONG());
+//			System.out.println(sp.getSOLUONG());
+			try {
+				session2.update(sp);
+				t2.commit();
+				model.addAttribute("message", "Cập nhật thành công");
+			}
+			catch(Exception e){
+				t2.rollback();
+				model.addAttribute("message", "Cập nhật thất bại");
+			}
+			finally {
+				session2.close();
+			}
+		/////
+		}
+//		System.out.println("===========");
 		try {
 			session.update(pd);
 			t.commit();
