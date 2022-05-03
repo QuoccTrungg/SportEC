@@ -28,9 +28,9 @@
 								<div class="table-title">
 									<div class="row">
 										<div class="col-sm-6">
-											<a href="admin/confirmedOrder.htm" class="btn btn-success"> <i
+											<a href="admin/order/confirmedOrder.htm" class="btn btn-success"> <i
 												class="material-icons"></i> <span>View confirmed order</span></a>
-												<a href="admin/denyOrder.htm" class="btn btn-warning"> <i
+												<a href="admin/order/denyOrder.htm" class="btn btn-warning"> <i
 												class="material-icons"></i> <span>View deny order</span></a>
 										</div>
 									</div>
@@ -43,7 +43,7 @@
 												<th>Oder owner</th>
 												<th>Phone number</th>
 												<th>Address</th>
-												<th>Ngày đặt</th>
+												<th>Order Date</th>
 
 											</tr>
 										</thead>
@@ -51,24 +51,24 @@
 											<tbody>
 												<tr>
 													<td>${ item.HOTEN}</td>
-													<td>${ item.DIACHI}</td>
 													<td>${ item.SDT}</td>
+													<td>${ item.DIACHI}</td>
 													<td>${ item.NGAYDAT}</td>
 													
-													<td><a title="Detail" class="edit"
-														href="admin/orderDetails/${item.MAPD}.htm"
+													<td><a title="Detail" class="detail"
+														href="admin/order/orderDetails/${item.MAPD}.htm"
 														data-toggle="tooltip"> <img
-															src="${pageContext.request.contextPath}/assets/images/accept.png"
+															src="${pageContext.request.contextPath}/assets/images/detail.png"
 															height="30" style="max-width: 50px">
 													</a></td>
 													<td><a title="Accept" class="edit"
-														href="admin/accept/${ item.MAPD }.htm"
+														href="admin/order/accept/${item.MAPD}.htm"
 														data-toggle="tooltip"> <img
 															src="${pageContext.request.contextPath}/assets/images/accept.png"
 															height="30" style="max-width: 50px">
 													</a></td>
 													<td><a title="Deny" class="delete"
-														href="admin/deny/${ item.MAPD }.htm"
+														href="admin/order/deny/${ item.MAPD }.htm"
 														data-toggle="tooltip"> <img
 															src="${pageContext.request.contextPath}/assets/images/xoa.png"
 															height="30" style="max-width: 40px">

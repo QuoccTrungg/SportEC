@@ -51,25 +51,25 @@
 											<!-- <tbody> -->
 												<tr>
 													<td>${ loop.count}</td>
-													<td><img width="50px" src="assets/images/shop/${item.product.product_images}"/></td>
-													<td>${ item.product.product_name}</td>
-													<td>${ item.product.product_price}</td>
-													<td>${ item.product.product_discount}</td>
-													<td>${ item.quantity }</td>
+													<td><img width="50px" src="assets/images/shop/${item.sp.HINHANH}"/></td>
+													<td>${ item.sp.TENSP}</td>
+													<td>${ item.sp.DONGIA}</td>
+													<td>${ item.sp.KHUYENMAI}</td>
+													<td>${ item.SOLUONG }</td>
 													<td>
-														<c:if test="${item.product.product_price != 0}">
+														<c:if test="${item.sp.KHUYENMAI != 0}">
 															<fmt:formatNumber type="number"
-																maxFractionDigits="3" value="${(item.product.product_price - item.product.product_discount )* item.quantity}" />
+																maxFractionDigits="3" value="${(item.sp.DONGIA - item.sp.DONGIA*item.sp.KHUYENMAI )* item.SOLUONG}" />
 														</c:if>
-														<c:if test="${item.product.product_price == 0}">
+														<c:if test="${item.sp.KHUYENMAI == 0}">
 															<fmt:formatNumber type="number"
-																maxFractionDigits="3" value="${item.product.product_price * item.quantity}" />
+																maxFractionDigits="3" value="${item.sp.DONGIA * item.SOLUONG}" />
 															
 														</c:if>				
 													</td>
 													<c:if test="${loop.first}">
 													<td rowspan="${size}">
-														<strong>Total: <fmt:formatNumber type="number"
+														 <strong>Total: <fmt:formatNumber type="number"
 																maxFractionDigits="2" value="${total}" /> VND
 														</strong>
 													</td>
@@ -78,18 +78,6 @@
 												</tr>
 											<!-- </tbody> -->
 										</c:forEach>
-									<!-- 	<tfoot> -->
-											<tr class="bg-light text-dark">
-												<th>ID</th>
-												<th>Image</th>
-												<th>Name</th>
-												<th>Price</th>
-												<th>Discount</th>
-												<th>Quantity</th>
-												<th>Subtotal</th>
-												<th>Total</th>
-											</tr>
-										<!-- </tfoot> -->
 									</table>
 								</div>
 							</div>

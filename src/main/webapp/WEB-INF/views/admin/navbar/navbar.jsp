@@ -169,11 +169,11 @@
 							class="fas fa-fw fa-table"></i>Orders</a>
 						<div id="submenu-7" class="collapse submenu" style="">
 							<ul class="nav flex-column">
-								<li class="nav-item"><a class="nav-link" href="admin/manager_order.htm"
+								<li class="nav-item"><a class="nav-link" href="admin/order/manager_order.htm"
 									>Waiting order</a></li>
-								<li class="nav-item"><a class="nav-link" href="admin/confirmedOrder.htm"
+								<li class="nav-item"><a class="nav-link" href="admin/order/confirmedOrder.htm"
 									>Confirmed order</a></li>
-								<li class="nav-item"><a class="nav-link" href="admin/denyOrder.htm"
+								<li class="nav-item"><a class="nav-link" href="admin/order/denyOrder.htm"
 									>Deny order</a></li>	
 								
 

@@ -28,9 +28,9 @@
 								<div class="table-title">
 									<div class="row">
 										<div class="col-sm-6">
-											<a href="admin/manager_order.htm" class="btn btn-primary"> <i
+											<a href="admin/order/manager_order.htm" class="btn btn-primary"> <i
 												class="material-icons"></i> <span>View waiting order</span></a>
-												<a href="admin/confirmedOrder.htm" class="btn btn-success"> <i
+												<a href="admin/order/confirmedOrder.htm" class="btn btn-success"> <i
 												class="admin/material-icons"></i> <span>View confirmed order</span></a>
 										</div>
 									</div>
@@ -45,41 +45,47 @@
 												<th>Address</th>
 												<th>Phone number</th>
 												<th>Email</th>
-												<th>Item</th>
-												<th>Note</th>
-												<th>Total</th>
+<!-- 												<th>Item</th> -->
+<!-- 												<th>Note</th> -->
+<!-- 												<th>Total</th> -->
 
 											</tr>
 										</thead>
-										<c:forEach var="item" items="${ denyOrder }">
+										<c:forEach var="item" items="${denyOrder}">
 											<tbody>
 												<tr>
-													<td>${ item.order_id}</td>
-													<td>${ item.order_ownername}</td>
-													<td>${ item.order_address}</td>
-													<td>${ item.order_phone}</td>
-													<td>${ item.order_email}</td>
-													<td>
-														<strong><a href="admin/orderDetails/${item.order_id}.htm">${ item.order_items}</a></strong>
-													</td>
-													<td>${ item.order_note}</td>
-													<td><fmt:formatNumber type="number" maxFractionDigits="3"
-																value="${ item.total }" /></td>
+													<td>${ item.MAPD}</td>
+													<td>${ item.HOTEN}</td>
+													<td>${ item.DIACHI}</td>
+													<td>${ item.SDT}</td>
+													<td>${ item.EMAIL}</td>
+												<td><a title="Detail" class="detail"
+														href="admin/order/orderDetails/${item.MAPD}.htm"
+														data-toggle="tooltip"> <img
+															src="${pageContext.request.contextPath}/assets/images/detail.png"
+															height="30" style="max-width: 50px">
+													</a></td>
+<%-- 												<td> -->
+<%-- 														<strong><a href="admin/orderDetails/${item.MAPD}.htm"></a></strong> --%>
+<!-- 													</td> -->
+<%-- 													<td>${ item.order_note}</td> --%>
+<%-- 													<td><fmt:formatNumber type="number" maxFractionDigits="3" --%>
+<%-- 																value="${total}" /></td> --%>
 												</tr>
 											</tbody>
 										</c:forEach>
-										<tfoot>
-											<tr>
-												<th>ID</th>
-												<th>Oder owner</th>
-												<th>Address</th>
-												<th>Phone number</th>
-												<th>Email</th>
-												<th>Item</th>
-												<th>Note</th>
-												<th>Total</th>
-											</tr>
-										</tfoot>
+<!-- 										<tfoot> -->
+<!-- 											<tr> -->
+<!-- 												<th>ID</th> -->
+<!-- 												<th>Oder owner</th> -->
+<!-- 												<th>Address</th> -->
+<!-- 												<th>Phone number</th> -->
+<!-- 												<th>Email</th> -->
+<!-- <!-- 												<th>Item</th> -->
+<!-- <!-- 												<th>Note</th> --> 
+<!-- 												<th>Total</th> -->
+<!-- 											</tr> -->
+<!-- 										</tfoot> -->
 									</table>
 								</div>
 							</div>
