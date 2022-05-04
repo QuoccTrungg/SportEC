@@ -38,6 +38,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 //
 //
 //
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import entity.CTPD;
 import entity.GioHang;
@@ -243,7 +244,29 @@ public class CartController {
 //		cart.clearItem();
 //		return "reviewOrder";
 //	}
-//	
+//GioHang gh = (GioHang)session.getAttribute("gioHang");
+//	if(gh == null) {
+//		gh= new GioHang();
+//		session.setAttribute("gioHang",gh);
+//	}
+//	boolean flag = false;
+////	
+//	List <ItemGH> out = new ArrayList<>();
+//	for(ItemGH item : gh.getItems()) {		
+//		if (item.getSoluong() > getSP(item.getSp().getMASP()).getSOLUONG()) {
+//			System.out.println(item.getSoluong());
+//			System.out.println(getSP(item.getSp().getMASP()).getSOLUONG());
+//			out.add(item);
+//			flag=true;
+//		}
+//	}
+//	System.out.println(flag);
+//	if(flag) {
+//		gh.getItems().removeAll(out);
+//		System.out.println(flag);
+//		session.setAttribute("gioHang",gh);
+//		return "redirect:/cart.htm";
+//		}	
 //	
 //	
 //	@RequestMapping(value="reviewOrder")
@@ -320,7 +343,7 @@ public class CartController {
 			@RequestParam("order_phone") String sdt,
 			@RequestParam("order_note") String note,
 			@RequestParam("order_items") String order_items,
-			@ModelAttribute("Order") PhieuDat pd) {
+			@ModelAttribute("Order") PhieuDat pd,RedirectAttributes redirect) {
 //		@RequestParam("order_owner") int makh,
 //		@RequestParam("order_ownername") String hoten,
 //		@RequestParam("order_email") String email,
@@ -330,22 +353,31 @@ public class CartController {
 //		@RequestParam("order_items") String order_items,
 //		@ModelAttribute("Order") PhieuDat pd
 		
+
 		GioHang gh = (GioHang)session2.getAttribute("gioHang");
 		if(gh == null) {
 			gh= new GioHang();
 			session2.setAttribute("gioHang",gh);
 		}
-		boolean flag = true;
-		for(ItemGH item : gh.getItems()) {
-			if (item.getSoluong() > item.getSp().getSOLUONG()) {
-				gh.deleteItem(item.getSp());
-				flag=false;
+		boolean flag = false;
+	//	
+		List <ItemGH> out = new ArrayList<>();
+		for(ItemGH item : gh.getItems()) {		
+			if (item.getSoluong() > getSP(item.getSp().getMASP()).getSOLUONG()) {
+				System.out.println(item.getSoluong());
+				System.out.println(getSP(item.getSp().getMASP()).getSOLUONG());
+				out.add(item);
+				flag=true;
 			}
 		}
-		if(!flag) {
+		System.out.println(flag);
+		if(flag) {
+			gh.getItems().removeAll(out);
+			System.out.println(flag);
 			session2.setAttribute("gioHang",gh);
+			redirect.addFlashAttribute("successMessage", "Sản phẩm đã hết!");
 			return "redirect:/cart.htm";
-			}
+			}	
 //		System.out.println(hoten);
 //		System.out.println(email);
 //		System.out.println(diachi);
@@ -526,6 +558,7 @@ public class CartController {
 //				System.out.println("tháº¥t báº¡i");
 //			}
 //		}
+			
 		gh.clearItem();
 		return "reviewOrder";
 	}
