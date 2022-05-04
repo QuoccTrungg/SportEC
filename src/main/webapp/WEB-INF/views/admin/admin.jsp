@@ -12,11 +12,24 @@
 	<!-- ============================================================== -->
 	<div class="dashboard-main-wrapper">
 		<!-- ============================================================== -->
-		<!-- navbar -->
+		<!-- navbar for ql -->
 		<!-- ============================================================== -->
+		<%
+					if ((int)session.getAttribute("role") == 1) {
+					%>
+					<!-- navbar for ql -->
+						<%@include file="/WEB-INF/views/admin/navbar/navbar.jsp"%>
+					<%
+					}
+					else{
+					%>
+					<!-- navbar for nv -->
+						<%@include file="/WEB-INF/views/admin/navbar/navbarNV.jsp"%>
+					<%
+					}
+		%>
 
-		<%@include file="/WEB-INF/views/admin/navbar/navbar.jsp"%>
-
+		
 		<!-- ============================================================== -->
 		<!-- end left sidebar -->
 		<!-- ============================================================== -->

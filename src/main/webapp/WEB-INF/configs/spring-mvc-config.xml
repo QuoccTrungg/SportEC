@@ -74,13 +74,13 @@
 	<tx:annotation-driven
 		transaction-manager="transactionManager" />
 
-<!-- 	<mvc:interceptors> -->
-<!-- 		<mvc:interceptor> -->
-<!-- 			<mvc:mapping path="/admin.htm" /> -->
-<!-- 			<mvc:mapping path="/admin/**" /> -->
-<!-- 			<bean -->
-<!-- 				class="ElectronicComponentsShopMVC.Interceptor.AuthorizeInterceptor" /> -->
-<!-- 		</mvc:interceptor> -->
-<!-- 	</mvc:interceptors> -->
-
+<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/admin/**" />
+			<mvc:exclude-mapping path="/admin/login.htm"/>
+			<mvc:exclude-mapping path="/admin/order/**"/>
+			<bean
+				class="interceptor.AuthorizeInterceptor" />
+		</mvc:interceptor>
+</mvc:interceptors>
 </beans>

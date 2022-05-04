@@ -1,9 +1,11 @@
 package controller.user;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Calendar;
 //
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
@@ -173,6 +175,39 @@ public class CartController {
 	
 	@RequestMapping(value="ttoan")
 	public String checkout(HttpSession session) {	
+		GioHang gh = (GioHang)session.getAttribute("gioHang");
+		if(gh == null) {
+			gh= new GioHang();
+			session.setAttribute("gioHang",gh);
+		}
+		boolean flag = false;
+//		for(ItemGH item : gh.getItems()) {
+//			System.out.println(item.getSoluong());
+//			System.out.println(getSP(item.getSp().getMASP()).getSOLUONG());
+//			
+//			if (item.getSoluong() > getSP(item.getSp().getMASP()).getSOLUONG()) {
+//				System.out.println(item.getSoluong());
+//				System.out.println(getSP(item.getSp().getMASP()).getSOLUONG());
+//				gh.deleteItem(getSP(item.getSp().getMASP()));
+//				flag=true;
+//			}
+//		}
+		List <ItemGH> out = new ArrayList<>();
+		for(ItemGH item : gh.getItems()) {		
+			if (item.getSoluong() > getSP(item.getSp().getMASP()).getSOLUONG()) {
+				System.out.println(item.getSoluong());
+				System.out.println(getSP(item.getSp().getMASP()).getSOLUONG());
+				out.add(item);
+				flag=true;
+			}
+		}
+		System.out.println(flag);
+		if(flag) {
+			gh.getItems().removeAll(out);
+			System.out.println(flag);
+			session.setAttribute("gioHang",gh);
+			return "redirect:/cart.htm";
+			}
 		return "checkout";
 	}
 //	
@@ -300,6 +335,17 @@ public class CartController {
 			gh= new GioHang();
 			session2.setAttribute("gioHang",gh);
 		}
+		boolean flag = true;
+		for(ItemGH item : gh.getItems()) {
+			if (item.getSoluong() > item.getSp().getSOLUONG()) {
+				gh.deleteItem(item.getSp());
+				flag=false;
+			}
+		}
+		if(!flag) {
+			session2.setAttribute("gioHang",gh);
+			return "redirect:/cart.htm";
+			}
 //		System.out.println(hoten);
 //		System.out.println(email);
 //		System.out.println(diachi);
@@ -333,17 +379,17 @@ public class CartController {
 			makh = this.findKHbySDT(sdt).getMAKH();
 		}
 		
-		boolean flag = true;
-		for(ItemGH item : gh.getItems()) {
-			if (item.getSoluong() > item.getSp().getSOLUONG()) {
-				gh.deleteItem(item.getSp());
-				flag=false;
-			}
-		}
-		if(!flag) {
-			session2.setAttribute("gioHang",gh);
-			return "redirect:/cart.htm";
-			}
+//		boolean flag = true;
+//		for(ItemGH item : gh.getItems()) {
+//			if (item.getSoluong() > item.getSp().getSOLUONG()) {
+//				gh.deleteItem(item.getSp());
+//				flag=false;
+//			}
+//		}
+//		if(!flag) {
+//			session2.setAttribute("gioHang",gh);
+//			return "redirect:/cart.htm";
+//			}
 		
 			Session session = factory.openSession();
 			Transaction t = session.beginTransaction();
@@ -483,12 +529,27 @@ public class CartController {
 		gh.clearItem();
 		return "reviewOrder";
 	}
+	
+	//// function////
+	
 	public KhachHang findKHbySDT(String sdt) {
 		Session session = factory.getCurrentSession(); 
 		String hql="FROM KhachHang WHERE SDT = :sdt";
 		Query qr = session.createQuery(hql);
 		KhachHang kh = (KhachHang) qr.setParameter("sdt", sdt).uniqueResult();
 		return kh;
+	}
+	
+	///
+	public SanPham getSP(int masp) {
+		try {
+			Session session = factory.getCurrentSession();
+			SanPham sp=(SanPham)session.get(SanPham.class,masp);
+			return sp;
+
+		} catch (Exception e) {
+			return null;
+		}
 	}
 }
 

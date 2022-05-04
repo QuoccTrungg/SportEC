@@ -92,6 +92,7 @@ body {
 						<div class="row mt-3">
 							<form:hidden path="MASP"/>
 							<form:hidden path="HINHANH"/>
+							<form:hidden path="TINHTRANG"/>
 							<div class="col-md-12">
 								<label class="labels">Name</label>
 								<form:input path="TENSP" type="text" class="form-control" id="name"/>
