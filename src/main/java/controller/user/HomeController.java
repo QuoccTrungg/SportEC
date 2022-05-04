@@ -7,6 +7,7 @@ import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.transaction.Transactional;
 
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import entity.GioHang;
 import entity.PhieuDat;
 //import dao.UserDao;
 //import entity.Cart;
@@ -23,7 +25,7 @@ import service.admin.AdminService;
 //import service.user.CategoryService;
 //import service.user.ProductService;
 import service.user.UserService;
-
+@Transactional
 @Controller
 public class HomeController {
 //	@Autowired
@@ -36,16 +38,23 @@ public class HomeController {
 //	UserDao userDao;
 //	@Autowired
 //	AdminService adminService;
-//	@Autowired
-//	SessionFactory factory;
+	@Autowired
+	SessionFactory factory;
 //	@Autowired
 //	CartService cartService;
 	
 	
 	@RequestMapping(value = "index")
 	public String Index(ModelMap model, HttpServletRequest request) {
-		HttpSession session = request.getSession();
-//		Cart cart = cartService.getGioHang(session);
+//		HttpSession session = request.getSession();
+//		GioHang gh = (GioHang)session.getAttribute("gioHang");
+//		if(gh == null) {
+//			gh= new GioHang();
+//			session.setAttribute("gioHang",gh);
+//		}
+//		model.addAttribute("cartCount", gh.getItems().size());
+		
+		//		Cart cart = cartService.getGioHang(session);
 //		model.addAttribute("cartCount", cart.getItems().size());
 //		model.addAttribute("all_category", categoryService.getAllCategory());
 //		model.addAttribute("all_product", productService.getAllProductFeature());

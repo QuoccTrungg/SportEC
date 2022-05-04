@@ -21,7 +21,7 @@
 							<div class="caption-content">
 								<div class="font-alt mb-30 titan-title-size-1">This is
 									Essential Collection sprots Shop</div>
-								<div class="font-alt mb-30 titan-title-size-4">2021</div>
+								<div class="font-alt mb-30 titan-title-size-4">2022</div>
 								<div class="font-alt mb-40 titan-title-size-4">Your online
 									sports shopping destination</div>
 							</div>
@@ -33,7 +33,7 @@
 							<div class="caption-content">
 								<div class="font-alt mb-30 titan-title-size-1">This is
 									Essential Collection sports Shop</div>
-								<div class="font-alt mb-30 titan-title-size-4">2021</div>
+								<div class="font-alt mb-30 titan-title-size-4">2022</div>
 								<div class="font-alt mb-40 titan-title-size-1">Your online
 									sports shopping destination</div>
 							</div>
@@ -45,7 +45,7 @@
 							<div class="caption-content">
 								<div class="font-alt mb-30 titan-title-size-1">This is
 									Essential Collection sprots Shop</div>
-								<div class="font-alt mb-30 titan-title-size-4">2021</div>
+								<div class="font-alt mb-30 titan-title-size-4">2022</div>
 								<div class="font-alt mb-40 titan-title-size-4">Your online
 									sports shopping destination</div>
 							</div>
@@ -57,7 +57,7 @@
 							<div class="caption-content">
 								<div class="font-alt mb-30 titan-title-size-1">This is
 									Essential Collection sprots Shop</div>
-								<div class="font-alt mb-30 titan-title-size-4">2021</div>
+								<div class="font-alt mb-30 titan-title-size-4">2022</div>
 								<div class="font-alt mb-40 titan-title-size-4">Your online
 									sports shopping destination</div>
 							</div>
@@ -83,31 +83,31 @@
 							<div class="col-sm-6 col-md-3 col-lg-3">
 								<div class="shop-item">
 									<div class="shop-item-image">
-										<img src="assets/images/shop/${ item.product_images }"
+										<img src="assets/images/shop/${ item.HINHANH }"
 											alt="Accessories Pack" />
 										<div class="shop-item-detail">
 											<a class="btn btn-round btn-b"
-												href="addToCart/${ item.product_id }.htm"><span
+												href="addToCart/${ item.MASP }.htm"><span
 												class="icon-basket">Add To Cart</span></a>
 										</div>
 									</div>
 									<h4 class="shop-item-title font-alt">
-										<a href="product/${item.product_id }.htm">${ item.product_name }</a>
+										<a href="product/${item.MASP }.htm">${ item.TENSP }</a>
 									</h4>
-									<c:if test="${ item.product_discount > 0 }">
+									<c:if test="${ item.KHUYENMAI > 0 }">
 										<del>
 											<fmt:formatNumber type="number" maxFractionDigits="3"
-												value="${item.product_price}" />
+												value="${item.DONGIA}" />
 											VND
 										</del>
 
 										<fmt:formatNumber type="number" maxFractionDigits="3"
-											value="${ item.product_price - item.product_discount}" />
+											value="${ item.DONGIA - item.KHUYENMAI*item.DONGIA}" />
 															VND
 													</c:if>
-									<c:if test="${ item.product_discount == 0 }">
+									<c:if test="${ item.KHUYENMAI == 0 }">
 										<fmt:formatNumber type="number" maxFractionDigits="3"
-											value="${item.product_price}" /> VND
+											value="${item.DONGIA}" /> VND
 													</c:if>
 								</div>
 							</div>
@@ -149,7 +149,7 @@
 								<div class="post mb-40">
 									<div class="post-header font-alt">
 										<h2 class="post-title">
-											<a href="category/${ item.category_id }.htm">${ item.category_name }</a>
+											<a href="category/${ item.MALOAI }.htm">${ item.TENLOAI }</a>
 										</h2>
 									</div>
 									<div class="post-entry">

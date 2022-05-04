@@ -228,6 +228,7 @@ public class CategoryController {
 	
 	@RequestMapping(value = "cart")
 	public String cart(HttpSession session, ModelMap model) {
+		
 		GioHang gh = (GioHang)session.getAttribute("gioHang");
 		if(gh == null) {
 			gh= new GioHang();
@@ -237,6 +238,7 @@ public class CategoryController {
 		model.addAttribute("cartCount", gh.getItems().size());
 		//		Cart cart = cartService.getGioHang(session);
 //		model.addAttribute("cartCount", cart.getItems().size());
+		
 		gh.getTong();
 		return "cart";
 	}
@@ -300,7 +302,7 @@ public class CategoryController {
 	public List<SanPham> getSPKhac(int maloai, int masp) {
 		try {
 			Session session = factory.getCurrentSession();
-			String hql = "FROM SanPham WHERE MALOAI LIKE '" + maloai + "'AND MASP != '" + masp + "'" ;
+			String hql = "FROM SanPham WHERE MALOAI LIKE '" + maloai + "'AND MASP != '" + masp + "' AND SOLUONG!=0 AND TINHTRANG=True";
 			Query query = session.createQuery(hql);
 			List<SanPham> list = query.list();
 			return list;

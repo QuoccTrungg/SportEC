@@ -117,7 +117,10 @@
                     <!-- Card -->
                     <div class="card wish-list mb-4">
                         <div class="card-body">
-
+							<c:if test="${ message != null }">  
+									<div class="alert alert-primary" role="alert" style="font-size:160% ;color:red">${ message}</div>
+								</c:if>
+							
                             <h2 class="mb-4">Giỏ hàng (<span>${cartCount}</span> items)</h2>
 
                             <div class="row mb-4">
@@ -204,7 +207,6 @@
 
                             <p class="text-primary mb-0"><i class="fas fa-info-circle mr-1"></i> Do not delay the purchase, adding
                                 items to your cart does not mean booking them.</p>
-
                         </div>
                     </div>
 

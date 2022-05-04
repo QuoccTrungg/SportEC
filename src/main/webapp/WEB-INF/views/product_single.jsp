@@ -54,7 +54,11 @@
 								<div class="row mb-20">
 									<div class="col-sm-12">
 										<div class="description">
-											<p>${productsingle.MOTA }</p>
+											<p style="font-size:200%">${productsingle.MOTA }</p>
+										</div>
+										<div class="description">
+											<h5>Số lượng sản phẩm </h5>
+											<p style="font-size:200%">${productsingle.SOLUONG}</p>
 										</div>
 									</div>
 								</div>
@@ -76,7 +80,7 @@
 								</div>
 								<div class="row mb-20">
 									<div class="col-sm-12">
-										<div class="product_meta">
+										<div class="product_meta" style="font-size:200%">
 											Categories:<a href="category/${ productsingle.getLoaisp().getMALOAI()}.htm">
 										${productsingle.getLoaisp().getTENLOAI() } </a>
 										</div>
