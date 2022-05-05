@@ -25,13 +25,18 @@
 							<h5 class="card-header">Order Manager</h5>
 							<div class="card-body">
 								<div class="table-title">
+																	<div class="alert alert-primary" role="alert" style="font-size:200%">${ message }</div>
 									<div class="row">
+
 <!-- 										<div class="col-sm-6"> -->
 <!-- 											<a href="admin/order/confirmedOrder.htm" class="btn btn-success"> <i -->
 <!-- 												class="material-icons"></i> <span>View confirmed order</span></a> -->
 <!-- 												<a href="admin/order/denyOrder.htm" class="btn btn-warning"> <i -->
 <!-- 												class="material-icons"></i> <span>View deny order</span></a> -->
 <!-- 										</div> -->
+								  
+		               			
+								
 							<!-- Tim Kiem Don Theo SDT -->
 							<form class="form-inline my-2 my-lg-0" action="search.htm" method=post>
 								<input class="form-control mr-sm-2" type="search"

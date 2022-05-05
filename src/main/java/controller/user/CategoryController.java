@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import entity.CTPD;
 import entity.GioHang;
@@ -253,11 +254,16 @@ public class CategoryController {
 
 	@RequestMapping(value = "search", method=RequestMethod.POST)
 	public String search(HttpSession session, ModelMap model,
-			@RequestParam("order_phone") String phone) {
+			@RequestParam("order_phone") String phone,RedirectAttributes rd) {
 		System.out.println(phone);
 		model.addAttribute("waitingOrder", this.getPD(phone));
+	if(getPD(phone).size()==0) 
+		model.addAttribute("message","Không  có đơn đặt hàng nào");
 		return "order_history";
 	}
+	
+	
+	
 	@RequestMapping(value="/orderDetails/{id}")
 	public String orderDetails(ModelMap model, @PathVariable("id") int id, HttpServletRequest request) {
 		
