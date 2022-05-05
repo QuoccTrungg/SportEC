@@ -66,7 +66,7 @@
 												</c:if>
 													<c:if test="${ item.KHUYENMAI == 0 }"> 
 												<fmt:formatNumber type="number" maxFractionDigits="3"
-															value="  ${item.DONGIA}" /> VND 
+															value="${item.DONGIA}" /> VND 
 												</c:if> 
 <%-- 										<c:if test="${ item.KHUYENMAI > 0 }"> --%>
 <!-- 											<del> -->
