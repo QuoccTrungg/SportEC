@@ -431,7 +431,7 @@ public class CartController {
 			Session session = factory.openSession();
 			Transaction t = session.beginTransaction();
 			try {	
-				pd.setMAKH(makh);
+				pd.setKhachhang(findKHbySDT(sdt));
 				pd.setHOTEN(hoten);
 				pd.setSDT(sdt);
 				pd.setEMAIL(email);
@@ -469,7 +469,7 @@ public class CartController {
 		model.addAttribute("note", note);
 		
 			CTPD ct = new CTPD();
-			int z = pd.getMAKH();
+			int z = pd.getKhachhang().getMAKH();
 			for(ItemGH item : gh.getItems()) {
 				Session sessionz = factory.openSession();
 				Transaction t2 = sessionz.beginTransaction();

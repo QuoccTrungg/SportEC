@@ -16,8 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-
+import org.springframework.web.bind.annotation.RequestParam;
 
 import entity.GioHang;
 import entity.LoaiSP;
@@ -242,6 +241,16 @@ public class CategoryController {
 		gh.getTong();
 		return "cart";
 	}
+	@RequestMapping(value = "tracuu")
+	public String tracuu(HttpSession session, ModelMap model) {
+		return "order_history";
+	}
+	@RequestMapping(value = "search")
+	public String search(HttpSession session, ModelMap model,
+			@RequestParam("order_phone") String phone) {
+		model.addAttribute("waitingOrder", this.getPD(phone));
+		return "order_history";
+	}
 ////////function//////////
 	///////
 	public List<SanPham> getSPLLimit(int maloai, int first) {
@@ -272,6 +281,18 @@ public class CategoryController {
 
 	}
 	////
+	public List<PhieuDat> getPD(String sdt){
+		try {
+			Session session = factory.getCurrentSession();
+			String hql = "FROM PhieuDat WHERE SDT LIKE '" + sdt + "'AND TINHTRANG=1";
+			Query query = session.createQuery(hql);
+			List<PhieuDat> list = query.list();
+			return list;
+		} catch (Exception e) {
+			return null;
+		}
+	}
+	///
 	public List<SanPham> getSPLimit(int first) {
 		try {
 			Session session = factory.getCurrentSession();

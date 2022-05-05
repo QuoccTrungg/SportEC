@@ -29,10 +29,9 @@ public class PhieuDat {
 	private Date NGAYDAT;
 	private String HOTEN;
 	private String DIACHI;
-	private int MAKH;
-//	@ManyToOne
-//	@JoinColumn(name="MAKH")
-//	private KhachHang khachhang;
+	@ManyToOne
+	@JoinColumn(name="MAKH")
+	private KhachHang khachhang;
 	private String SDT;
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern="MM/dd/yyyy")
@@ -44,12 +43,11 @@ public class PhieuDat {
 	
 	public PhieuDat() {}
 	
-	public PhieuDat(String hoten,String email, String Diachi,String SDT, int makh) {
+	public PhieuDat(String hoten,String email, String Diachi,String SDT) {
 		this.HOTEN=hoten;
 		this.EMAIL=email;
 		this.DIACHI=Diachi;
 		this.SDT=SDT;
-		this.MAKH=makh;
 	}
 	
 	
@@ -85,12 +83,21 @@ public class PhieuDat {
 		NGAYGIAO = nGAYGIAO;
 	}
 	
-	public int getMAKH() {
-		return MAKH;
+	
+public KhachHang getKhachhang() {
+		return khachhang;
 	}
-	public void setMAKH(int mAKH) {
-		MAKH = mAKH;
+
+	public void setKhachhang(KhachHang khachhang) {
+		this.khachhang = khachhang;
 	}
+
+	//	public int getMAKH() {
+//		return MAKH;
+//	}
+//	public void setMAKH(int mAKH) {
+//		MAKH = mAKH;
+//	}
 	public int getTRANGTHAI() {
 		return TRANGTHAI;
 	}
