@@ -13,7 +13,6 @@
 		<!-- ============================================================== -->
 		<!-- navbar -->
 		<!-- ============================================================== -->
-		<%@include file="/WEB-INF/views/admin/navbar/navbar.jsp"%>
 		<!-- ============================================================== -->
 		<!-- wrapper  -->
 		<!-- ============================================================== -->
@@ -33,19 +32,12 @@
 <!-- 												<a href="admin/order/denyOrder.htm" class="btn btn-warning"> <i -->
 <!-- 												class="material-icons"></i> <span>View deny order</span></a> -->
 <!-- 										</div> -->
-												<div class="form-group">
-											<label>Phone number</label> <input class="form-control"
-											id="order_phone" type="tel" name="order_phone"
-											pattern="[0][0-9]{9}" placeholder="Số điện thoại" required
-											title="Vui lòng nhập số điện thoại hợp lệ" />
-											<a href="search/${order_phone}.htm" class="btn btn-success"> <i
-												class="material-icons"></i> <span>SEARCH</span></a>
-<!-- 												<a title="Accept" class="edit"  -->
-<%--  												href="admin/order/accept/${item.MAPD}.htm" --%>
-<!-- 													data-toggle="tooltip"> <img  -->
-<%-- 														src="${pageContext.request.contextPath}/assets/images/accept.png" --%>
-<!-- 															height="30" style="max-width: 50px"> -->
-											</div>
+							<!-- Tim Kiem Don Theo SDT -->
+							<form class="form-inline my-2 my-lg-0" action="search.htm" method=post>
+								<input class="form-control mr-sm-2" type="search"
+									placeholder="Your Phone" aria-label="Search" name="order_phone">
+								<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+							</form>
 									</div>
 								</div>
 								<br>
@@ -69,7 +61,7 @@
 													<td>${ item.NGAYDAT}</td>
 													
 													<td><a title="Detail" class="detail"
-														href="admin/order/orderDetails/${item.MAPD}.htm"
+														href="orderDetails/${item.MAPD}.htm"
 														data-toggle="tooltip"> <img
 															src="${pageContext.request.contextPath}/assets/images/detail.png"
 															height="30" style="max-width: 50px">
@@ -80,12 +72,12 @@
 <%-- 															src="${pageContext.request.contextPath}/assets/images/accept.png" --%>
 <!-- 															height="30" style="max-width: 50px"> -->
 <!-- 													</a></td> -->
-<!-- 													<td><a title="Deny" class="delete" -->
-<%-- 														href="admin/order/deny/${ item.MAPD }.htm" --%>
-<!-- 														data-toggle="tooltip"> <img -->
-<%-- 															src="${pageContext.request.contextPath}/assets/images/xoa.png" --%>
-<!-- 															height="30" style="max-width: 40px"> -->
-<!-- 													</a></td> -->
+ 													<td><a title="Deny" class="delete"
+														href="deny/${ item.MAPD }.htm" 
+ 														data-toggle="tooltip"> <img 
+															src="${pageContext.request.contextPath}/assets/images/xoa.png" 
+ 															height="30" style="max-width: 40px">
+ 													</a></td>
 												</tr>
 											</tbody>
 										</c:forEach>

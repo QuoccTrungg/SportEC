@@ -23,6 +23,18 @@ public class AdminController {
 	@Autowired
 	SessionFactory factory;
 
+public TKNV loginAuth(String username, String passwd) {
+		
+		Session session = factory.getCurrentSession(); 
+		String hql="FROM TKNV WHERE TK = :username";
+		Query qr = session.createQuery(hql);
+		TKNV u = (TKNV) qr.setParameter("username",username).uniqueResult();
+		if (u != null && u.getMK().equals(passwd)) {
+            return u;
+        }
+		return null;
+	}
+
 	@RequestMapping(value="admin")
 	public String admin(ModelMap model, HttpServletRequest request) {
 		HttpSession session = request.getSession();
@@ -33,49 +45,32 @@ public class AdminController {
 		
 		return "admin/admin";
 	}
+	
 	@RequestMapping(value="admin/login")
 	public String login(HttpSession session, ModelMap model) {
-		if (session.getAttribute("role") != null) {
-			return "redirect:/admin.htm";
-		}
 		return "admin/login";
 	}
 	
-public TKNV loginAuth(String username, String passwd) {
-		
-		Session session = factory.getCurrentSession(); 
-		String hql="FROM TKNV u WHERE u.TK = :username";
-		Query qr = session.createQuery(hql);
-		TKNV u = (TKNV) qr.setParameter("username",username).uniqueResult();
-		if (u != null && u.getMK().equals(passwd)) {
-            return u;
-        }
-		return null;
-	}
 
 	@RequestMapping(value = "login", method = RequestMethod.POST)
 	public String login(@RequestParam("username_login") String username,
-			@RequestParam("password_login") String password, HttpSession session) {
+			@RequestParam("password_login") String password, HttpSession session, ModelMap model) {
 		
 		TKNV tk = loginAuth(username, password);	
 		if (tk != null) {
-			//System.out.println(tk.getTK());
-			//System.out.println(tk.getNhanvien().getChucvu().getMACV());
 			session.setAttribute("role", tk.getNhanvien().getChucvu().getMACV());
-			//System.out.println(session.getAttribute("role").toString());	
 			return "redirect:admin.htm";
 		} 
 		else {
-			String message = "Thông tin tài khoản không đúng!";
-			session.setAttribute("message", message);
+			model.addAttribute("message", "Thông tin tài khoản không đúng!");
+			return "admin/login";
 		}	
-		return "login";
 	}
 
 	@RequestMapping(value = "logoutAD")
 	public String LoginAccount(HttpSession session, HttpServletRequest request) {
-		session.removeAttribute("LoginInfo");
-		return "index";
+		session.removeAttribute("role");
+		return "redirect:index.htm";
 	}
 
 }

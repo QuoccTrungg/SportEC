@@ -5,19 +5,23 @@ import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import entity.CTPD;
 import entity.GioHang;
 import entity.LoaiSP;
 import entity.PhieuDat;
@@ -245,16 +249,90 @@ public class CategoryController {
 	public String tracuu(HttpSession session, ModelMap model) {
 		return "order_history";
 	}
-	@RequestMapping(value = "search")
+
+
+	@RequestMapping(value = "search", method=RequestMethod.POST)
 	public String search(HttpSession session, ModelMap model,
 			@RequestParam("order_phone") String phone) {
+		System.out.println(phone);
 		model.addAttribute("waitingOrder", this.getPD(phone));
 		return "order_history";
 	}
+	@RequestMapping(value="/orderDetails/{id}")
+	public String orderDetails(ModelMap model, @PathVariable("id") int id, HttpServletRequest request) {
+		
+		Session session = factory.getCurrentSession();
+		String hql = "FROM CTPD WHERE MAPD LIKE '" + id + "'";
+		Query query = session.createQuery(hql);
+		@SuppressWarnings("unchecked")
+		List<CTPD> od = query.list();
+		//System.out.println(od.get(0).getSp().getTENSP());
+		model.addAttribute("od", od);
+		model.addAttribute("id", id);
+		model.addAttribute("size", od.size());
+		//PhieuDat order = (PhieuDat) session.get(PhieuDat.class, id);
+		int total=0;
+		for(CTPD item : od) total +=item.getGIA()*item.getSOLUONG(); 
+		model.addAttribute("total", total);
+		return "Details_user";
+	}
+	
+	@RequestMapping(value="deny/{order_id}")
+	public String deny(ModelMap model, @PathVariable("order_id") int order_id) {
+
+		Session session = factory.openSession();
+		Transaction t = session.beginTransaction();
+
+		PhieuDat pd = (PhieuDat) session.get(PhieuDat.class,order_id);
+		/// HUY đơn : TRANGTHAI=0///////
+
+		pd.setTRANGTHAI(0);
+		List<CTPD> listct=getCTPD(pd.getMAPD());
+
+		for(CTPD item : listct) {
+
+			Session session2 = factory.openSession();
+			Transaction t2 = session2.beginTransaction();
+			SanPham sp = (SanPham)session2.get(SanPham.class,item.getSp().getMASP());
+			sp.setSOLUONG(sp.getSOLUONG()+item.getSOLUONG());
+//			System.out.println(sp.getSOLUONG());
+			try {
+				session2.update(sp);
+				t2.commit();
+				model.addAttribute("message", "Cập nhật thành công");
+			}
+			catch(Exception e){
+				t2.rollback();
+				model.addAttribute("message", "Cập nhật thất bại");
+			}
+			finally {
+				session2.close();
+			}
+	
+		}
+
+		try {
+			session.update(pd);
+			t.commit();
+			model.addAttribute("message", "Cập nhật thành công");
+		}
+		catch(Exception e){
+			t.rollback();
+			model.addAttribute("message", "Cập nhật thất bại");
+		}
+		finally {
+			session.close();
+		}
+		
+
+		return "redirect:/tracuu.htm";
+	}
+	
 ////////function//////////
 	///////
 	public List<SanPham> getSPLLimit(int maloai, int first) {
 		try {
+			
 			Session session = factory.getCurrentSession();
 			String hql = "FROM SanPham WHERE MALOAI LIKE '" +  maloai + "'";
 			Query query = session.createQuery(hql).setFirstResult(first).setMaxResults(8);
@@ -282,15 +360,18 @@ public class CategoryController {
 	}
 	////
 	public List<PhieuDat> getPD(String sdt){
-		try {
+		//try {
 			Session session = factory.getCurrentSession();
-			String hql = "FROM PhieuDat WHERE SDT LIKE '" + sdt + "'AND TINHTRANG=1";
+			String hql = "FROM PhieuDat WHERE SDT LIKE '" + sdt + "'AND TRANGTHAI= 1";
+//			System.out.println(hql);
 			Query query = session.createQuery(hql);
+//			System.out.println(hql);
 			List<PhieuDat> list = query.list();
+//			System.out.println(list.get(0).getSDT());
 			return list;
-		} catch (Exception e) {
-			return null;
-		}
+		//} catch (Exception e) {
+		//	return null;
+		//}
 	}
 	///
 	public List<SanPham> getSPLimit(int first) {
@@ -346,7 +427,14 @@ public class CategoryController {
 			return null;
 		}
 	}
-	
+	///
+	public List<CTPD> getCTPD(int mapd) {
+		Session session = factory.getCurrentSession();
+		String hql = "FROM CTPD WHERE MAPD LIKE '" + mapd + "'";
+		Query query = session.createQuery(hql);
+		List<CTPD> list = query.list();
+		return list;
+}
 	//////////////////////////////
 
 }

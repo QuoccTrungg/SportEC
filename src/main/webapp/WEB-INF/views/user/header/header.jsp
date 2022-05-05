@@ -66,7 +66,9 @@
 						</c:if>
 					</a>
 				</li>
-				
+				<li class="dropdown">
+					<a class="notification" href="tracuu.htm">Orders History</a>
+				</li>
 				
 				<!--  kiểm tra tồn tại của user đăng nhập -->
 				<c:if test="${ empty LoginInfo }">
