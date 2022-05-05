@@ -153,9 +153,9 @@
 										</h2>
 									</div>
 									<div class="post-entry">
-										<p>A wonderful serenity has taken possession of my entire
-											soul, like these sweet mornings of spring which I enjoy with
-											my whole heart.</p>
+<!-- 										<p>A wonderful serenity has taken possession of my entire -->
+<!-- 											soul, like these sweet mornings of spring which I enjoy with -->
+<!-- 											my whole heart.</p> -->
 									</div>
 								</div>
 							</div>

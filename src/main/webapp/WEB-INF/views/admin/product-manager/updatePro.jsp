@@ -126,7 +126,11 @@ body {
 								<label class="labels">Detail</label>
 								<form:input path="MOTA" type="text" class="form-control" id="detail"/>
 							</div>
-
+<!-- 							<div class="col-md-12"> -->
+<!-- 								<label class="labels" for="tinhtrang">Tình trạng: </label> -->
+<%-- 								<form:select path="TINHTRANG" id="tinhtrang" items="${tinhtrang}" --%>
+<%-- 						class="form-control" itemValue="TINHTRANG" itemLabel="TINHTRANG"/> --%>
+<!-- 							</div> -->
 							<div class="col-md-12">
 								<label class="labels" for="category">Category: </label>
 								<form:select path="loaisp.MALOAI" id="category" items="${view_category}"

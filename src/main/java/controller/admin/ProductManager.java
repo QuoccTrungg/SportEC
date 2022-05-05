@@ -1,9 +1,7 @@
 package controller.admin;
 
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.http.HttpClient.Redirect;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -31,6 +29,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import entity.LoaiSP;
 import entity.SanPham;
@@ -78,18 +77,23 @@ public class ProductManager {
 	}
 
 	@RequestMapping(value = "addPro", method = RequestMethod.POST)
-	public String insertPro_(HttpServletRequest request, ModelMap model,
+	public String insertPro(ModelMap model,RedirectAttributes rdr,
 			@Validated @ModelAttribute("sanpham") SanPham sp,
 			@RequestParam("image") MultipartFile image,
-			BindingResult errors) throws IOException{
-		if (errors.hasErrors()) {
-			model.addAttribute("massage_insert", "Thêm không thành công");
-			model.addAttribute("view_category", this.getAllCategory());
-			return "product-manager/addPro";
-		} else {
+			BindingResult result){
+//		if (result.hasErrors()) {
+//			System.out.println("Has Error");
+//			model.addAttribute("message", "Invalid Input!");
+//			model.addAttribute("view_category", this.getAllCategory());
+//			return "/admin/product-manager/addPro";
+//		} else {
+		if (sp.getDONGIA()%1000 != 0){
+			model.addAttribute("message", "Gia san pham phai la boi so cua 1000");
+			return "/admin/product-manager/addPro";
+		}
+			System.out.println("Has Error");
 			Session session = factory.openSession();
 			Transaction t = session.beginTransaction();
-			
 			try {
 				String img = StringUtils.cleanPath(image.getOriginalFilename()); 
 				saveFile(image);
@@ -97,32 +101,32 @@ public class ProductManager {
 				sp.setTINHTRANG(true);
 				session.save(sp);
 				t.commit();
-				model.addAttribute("message", "Thêm thành công!");
-				
+				rdr.addFlashAttribute("message", "Success!");
 			} catch (Exception e) {
 				t.rollback();
-				model.addAttribute("message", "Thêm thất bại!");
+				rdr.addFlashAttribute("message", "Failed!");
 			} finally {
 				session.close();
 			}
 			return "redirect:/admin/product_manager.htm";
 		}
-	}
+	
 	
 	
 	@RequestMapping(value="deletePro/{product-id}")
-	public String deletePro(ModelMap model, @PathVariable("product-id") int product_id) {
+	public String deletePro(RedirectAttributes rdr, ModelMap model, @PathVariable("product-id") int product_id) {
 		Session session = factory.openSession();
 		Transaction t = session.beginTransaction();
 		SanPham prod = (SanPham) session.get(SanPham.class, product_id);
 		try {
-			session.delete(prod);
+			prod.setTINHTRANG(false);
+			session.update(prod);
 			t.commit();
-			model.addAttribute("message", "Xoá thành công!");
+			rdr.addFlashAttribute("message", "Product Deleted!");
 		}
 		catch(Exception e){
 			t.rollback();
-			model.addAttribute("message", "Xóa thất bại");
+			rdr.addFlashAttribute("message", "Failed!");
 		}
 		finally {
 			session.close();
@@ -139,8 +143,8 @@ public class ProductManager {
 		return "admin/product-manager/updatePro";
 	}
 	
-	@RequestMapping(value="updatePro")
-	public String update(ModelMap model, @Validated @ModelAttribute("sanpham") SanPham sp, 
+	@RequestMapping(value="updatePro", method=RequestMethod.POST)
+	public String editProduct(RedirectAttributes rdr, Model model, @Validated @ModelAttribute("sanpham") SanPham sp, 
 			BindingResult result, @RequestParam("image") MultipartFile image) throws IOException {
 		Session session = factory.openSession();
 		Transaction t = session.beginTransaction();	
@@ -149,15 +153,14 @@ public class ProductManager {
 			saveFile(image);
 			sp.setHINHANH(img);
 		}		
-		
 		try {
 			session.update(sp);
 			t.commit();
-			model.addAttribute("message", "Cập nhật thành công!");
+			rdr.addFlashAttribute("message", "Updated!");
 		}
 		catch(Exception e){
 			t.rollback();
-			model.addAttribute("message", "Cập nhật thất bại");
+			rdr.addFlashAttribute("message", "Failed!");
 		}
 		finally {
 			session.close();
@@ -171,37 +174,8 @@ public class ProductManager {
 			String img = StringUtils.cleanPath(file.getOriginalFilename()); 
 			String root = context.getRealPath("/");
 			Path path = Paths.get(root + "assets/images/shop/" + img);
-			//System.out.println(path);
 			Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
 		}
-//			try {
-//				byte[] bytes = file.getBytes();
-//				
-//				String root = context.getRealPath("/");
-//
-//				File dir = new File(rootPath + File.separator + "assets/images/shop");
-//				if(!dir.exists()) {
-//					dir.mkdir();
-//				}
-//				
-//				//create file on server
-//				String name = String.valueOf(file.getOriginalFilename());
-//				File serverFile = new File(dir.getAbsoluteFile()+File.separator+name);
-//				
-//				System.out.println("==========Path of image on server: "+serverFile.getPath());
-//				BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(serverFile));
-//				stream.write(bytes);
-//				stream.close();
-//				
-//				return name;
-//			} catch (Exception e) {
-//				System.out.println("==========Path of image on server: "+e.getMessage());
-//			}
-//			
-//		} 
-//		else {
-//			System.out.println("=============File not exits=============");
-//		}
 		return null;
 	}
 }
