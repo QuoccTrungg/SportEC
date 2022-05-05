@@ -577,7 +577,22 @@ public class CartController {
 		KhachHang kh = (KhachHang) qr.setParameter("sdt", sdt).uniqueResult();
 		return kh;
 	}
-	
+	////
+	public List<PhieuDat> DSDonHang(String sdt){
+		try {
+		KhachHang kh=findKHbySDT(sdt);
+		Session session = factory.getCurrentSession(); 
+		String hql="FROM PhieuDat WHERE MAKH LIKE '" +kh.getMAKH()+"'";
+		Query qr = session.createQuery(hql);
+		List<PhieuDat> list = qr.list();
+		return list;
+
+		} 
+		catch (Exception e) {
+		return null;
+	}
+
+	}
 	///
 	public SanPham getSP(int masp) {
 		try {

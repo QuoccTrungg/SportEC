@@ -30,6 +30,9 @@ public class PhieuDat {
 	private String HOTEN;
 	private String DIACHI;
 	private int MAKH;
+//	@ManyToOne
+//	@JoinColumn(name="MAKH")
+//	private KhachHang khachhang;
 	private String SDT;
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern="MM/dd/yyyy")
